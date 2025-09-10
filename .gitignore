@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# Virtual Environment
+.venv/
+env/
+venv/
+
+# Environment variables
+.env
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# macOS / Windows junk
+.DS_Store
+Thumbs.db
+
+# Docker volumes
+open-webui/
