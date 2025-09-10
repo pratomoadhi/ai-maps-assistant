@@ -24,3 +24,6 @@ Thumbs.db
 
 # Docker volumes
 open-webui/
+
+# Logs
+logs/
