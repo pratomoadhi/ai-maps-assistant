@@ -38,6 +38,8 @@ uvicorn app.main:app --reload
 
 Backend runs at 👉 [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
+![Backend running](screenshots/backend.png)
+
 ---
 
 ### 2. Frontend (Open WebUI)
@@ -49,6 +51,8 @@ cd frontend
 
 WebUI runs at 👉 [http://localhost:3000](http://localhost:3000)
 
+![WebUI running](screenshots/webui.png)
+
 ---
 
 ### 3. Import Tools
@@ -56,7 +60,13 @@ WebUI runs at 👉 [http://localhost:3000](http://localhost:3000)
 In Open WebUI:
 
 1. Go to **Workspace → Tools → Create -> New Tool**.
+
+![Tools Page](screenshots/tools_page.png)
+
 2. Paste the content of `tools.py` from this folder.
+
+![Tools Code](screenshots/tools_code.png)
+
 3. Now your LLM can use:
 
    * `get_places`
@@ -84,9 +94,15 @@ ollama list
 
 Inside WebUI:
 1. Go to **Workspace → Models → Create**.
+
+![Models Page](screenshots/models_page.png)
+
 2. Define the Model name. (e.g., `Maps Assistant`)
 3. Select a base model.
 4. In the Tools section, check one of the available tools.
+
+![Models Configuration](screenshots/models_config.png)
+
 
 Select them inside WebUI and start chatting 🚀
 
@@ -99,13 +115,24 @@ Select them inside WebUI and start chatting 🚀
 3. Import tools in WebUI.
 4. Create custom model (`Maps Assistant`).
 5. Select the model in chat.
-6. Ask:
+6. Ask for Places:
 
    ```
-   Find me restaurants near Monas Jakarta
+   Find me restaurants near Gambir Station
    ```
 
    → WebUI calls your FastAPI backend and returns results.
+   
+   ![Places Result](screenshots/places_result.png)
+76. Ask for Direction:
+
+   ```
+   Give me the direction from Gambir Station to Sate Khas Senayan
+   ```
+
+   → WebUI calls your FastAPI backend and returns results.
+   
+   ![Directions Result](screenshots/directions_result.png)
 
 ---
 

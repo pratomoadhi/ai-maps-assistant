@@ -12,7 +12,6 @@ async def search_places(query: str, limit: int = 5, zoom: int = 15):
     """
     Uses Nominatim to search places. Returns results augmented with:
       - permalink (openstreetmap.org URL with marker)
-      - embed_url (export/embed.html iframe URL)
     """
     async with httpx.AsyncClient() as client:
         resp = await client.get(
@@ -23,24 +22,14 @@ async def search_places(query: str, limit: int = 5, zoom: int = 15):
         results = resp.json()
 
     enhanced = []
-    # small bbox delta for embed (tweak as needed)
-    delta = 0.005
     for r in results:
+        osm_id = r.get("osm_id")
         lat = r.get("lat")
         lon = r.get("lon")
         # permalink with marker and center
-        permalink = f"https://www.openstreetmap.org/?mlat={lat}&mlon={lon}#map={zoom}/{lat}/{lon}"
-        # embed uses bbox=minLon,minLat,maxLon,maxLat (commas must be percent-encoded in some contexts)
-        min_lon = float(lon) - delta
-        max_lon = float(lon) + delta
-        min_lat = float(lat) - delta
-        max_lat = float(lat) + delta
-        # use %2C for commas in bbox and marker to be safe in HTML contexts
-        bbox = f"{min_lon}%2C{min_lat}%2C{max_lon}%2C{max_lat}"
-        embed_url = f"https://www.openstreetmap.org/export/embed.html?bbox={bbox}&layer=mapnik&marker={lat}%2C{lon}"
+        permalink = f"https://www.openstreetmap.org/node/{osm_id}#map={zoom}/{lat}/{lon}"
 
         r["permalink"] = permalink
-        r["embed_url"] = embed_url
         enhanced.append(r)
 
     return enhanced
@@ -80,9 +69,6 @@ async def get_directions(origin: str, destination: str):
         f"https://www.openstreetmap.org/directions?"
         f"engine=fossgis_osrm_car&route={o_lat},{o_lon};{d_lat},{d_lon}"
     )
-    # simpler "to" query (OSM also supports '?to=' for destination names/coords)
-    osm_to_link = f"https://www.openstreetmap.org/directions?to={d_lat},{d_lon}"
 
     data["osm_route_permalink"] = osm_route_link
-    data["osm_to_permalink"] = osm_to_link
     return data
